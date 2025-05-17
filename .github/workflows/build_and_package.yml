@@ -45,8 +45,8 @@ jobs:
 
             - name: Patch 7zip Install
               run: |
-                  wget https://github.com/ip7z/7zip/releases/download/24.09/7z2409-linux-x64.tar.xz
-                  tar -xf 7z2409-linux-x64.tar.xz
+                  wget https://github.com/p7zip-project/p7zip/releases/download/v17.05/linux-p7zip.7z
+                  7z x linux-p7zip.7z
                   sudo mv 7za /usr/bin/7za
 
             - name: Build
