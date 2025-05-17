@@ -50,7 +50,9 @@ jobs:
                   sudo mv 7za /usr/bin/7za
 
             - name: Build
-              run: python3 build-arm-none-eabi-gcc.py --host-arch ${{ matrix.config.arch }} --host-platform ${{ matrix.config.platform }}
+              run: |
+                  chmod +x build-bleeding-edge-toolchain.sh
+                  python3 build-arm-none-eabi-gcc.py --host-arch ${{ matrix.config.arch }} --host-platform ${{ matrix.config.platform }}
 
             - name: Package
               uses: actions/upload-artifact@v4
