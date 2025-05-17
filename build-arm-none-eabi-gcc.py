@@ -29,13 +29,19 @@ cwd = os.path.dirname(os.path.realpath(__file__))
 os.chdir(cwd)
 
 ret = subprocess.call(
-    f'./build-bleeding-edge-toolchain.sh {"--resume" if not args.noResume else ""} --keep-build-folders --skip-documentation {"--enable-win" if args.platform == "mingw32" else ""}{"32" if args.arch == "i686" else "64"}',
+    (
+        f'./build-bleeding-edge-toolchain.sh {"--resume" if not args.noResume else ""} --keep-build-folders --skip-documentation '
+        f'{"--enable-win32" if args.platform == "mingw32" and args.arch == "i686" else "--enable-win64" if args.platform == "mingw32" and args.arch == "x86_64" else ""}'
+    ),
     shell=True,
 )
 if ret != 0:
     # Ok, sources weren't copied right, do it again.
     ret = subprocess.call(
-        f'./build-bleeding-edge-toolchain.sh {"--resume" if not args.noResume else ""} --keep-build-folders --skip-documentation {"--enable-win" if args.platform == "mingw32" else ""}{"32" if args.arch == "i686" else "64"}',
+        (
+            f'./build-bleeding-edge-toolchain.sh {"--resume" if not args.noResume else ""} --keep-build-folders --skip-documentation '
+            f'{"--enable-win32" if args.platform == "mingw32" and args.arch == "i686" else "--enable-win64" if args.platform == "mingw32" and args.arch == "x86_64" else ""}'
+        ),
         shell=True,
     )
 assert ret == 0, f"Subcommand failed with exit code {ret}."
