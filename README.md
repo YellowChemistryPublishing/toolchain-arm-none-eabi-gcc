@@ -6,9 +6,11 @@ Convenience fork courtesy of Engineering @ Yellow Chemistry Publishing.
 This toolchain must be built on Linux, and targets arm-none-eabi.
 Run `python build-arm-none-eabi.py --host-arch i686|x86_64 --host-platform linux|mingw32` to build your preferred toolchain.
 
-| Build (env: bash)     | Host                 | Target            |
-| --------------------- | -------------------- | ----------------- |
-| x86_64-none-linux-gnu | i686-w64-mingw32-gcc | arm-none-eabi-gcc |
+| Build (env: bash) | Host               | Target        |
+| ----------------- | ------------------ | ------------- |
+| x86_64-linux-gnu  | i686-w64-mingw32   | arm-none-eabi |
+| x86_64-linux-gnu  | x86_64-w64-mingw32 | arm-none-eabi |
+| x86_64-linux-gnu  | x86_64-linux-gnu   | arm-none-eabi |
 
 ___
 
