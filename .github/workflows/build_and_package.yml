@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
     build:
-        name: ${{ matrix.config.arch }}-w64-mingw32-gcc
+        name: "[${{ matrix.config.arch }}-${{ matrix.config.platform }}] arm-none-eabi-gcc"
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
