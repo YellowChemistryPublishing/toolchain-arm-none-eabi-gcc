@@ -14,7 +14,7 @@ set -eu
 
 binutilsVersion="2.43"
 expatVersion="2.6.3"
-gccVersion="14.2.0"
+gccVersion="15.1.0"
 gdbVersion="17.2"
 gmpVersion="6.3.0"
 islVersion="0.27"
@@ -1254,7 +1254,7 @@ if [ "${skipGdb}" = "n" ]; then
 		"${buildNative}" \
 		"${installNative}" \
 		"" \
-		"--build=\"${hostTriplet}\" --host=\"${hostTriplet}\" --with-python=yes" \
+		"--build=\"${hostTriplet}\" --host=\"${hostTriplet}\" --with-python=no" \
 		"${documentationTypes}"
 fi
 
@@ -1432,7 +1432,7 @@ buildMingw() {
 			"${installFolder}" \
 			"${bannerPrefix}" \
 			"--build=\"${hostTriplet}\" --host=\"${triplet}\" \
-				--with-python=\"${top}/${buildFolder}/python.sh\" \
+				--with-python=no \
 				--program-prefix=\"${target}-\" \
 				--program-suffix=-py \
 				--with-gmp=\"${top}/${buildFolder}/${prerequisites}/${gmp}\" \
