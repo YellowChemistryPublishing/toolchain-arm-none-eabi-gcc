@@ -1098,16 +1098,16 @@ buildMingw() {
 	find "${installFolder}" -name '*.dll' -exec "${STRIP}" --strip-unneeded {} \;
 	sed -i 's/$/\r/' "${installFolder}/info.txt"
 
-	messageA "${bannerPrefix}Package"
-	tagFile="${top}/${buildFolder}/package_generated"
-	if [ ! -f "${tagFile}" ]; then
-		maybeDelete "${package}"
-		ln -s "${installFolder}" "${package}"
-		maybeDelete "${packageArchive}"
-		7za a -y -l -mx=9 "${packageArchive}" "${package}"
-		maybeDelete "${package}"
-		touch "${tagFile}"
-	fi
+	# messageA "${bannerPrefix}Package"
+	# tagFile="${top}/${buildFolder}/package_generated"
+	# if [ ! -f "${tagFile}" ]; then
+	# 	maybeDelete "${package}"
+	# 	ln -s "${installFolder}" "${package}"
+	# 	maybeDelete "${packageArchive}"
+	# 	7za a -y -l -mx=9 "${packageArchive}" "${package}"
+	# 	maybeDelete "${package}"
+	# 	touch "${tagFile}"
+	# fi
 	)
 }
 
