@@ -4,8 +4,9 @@ buildWin64/
 installNative/
 installWin32/
 installWin64/
-sources/*
-!sources/*/
+sources/
+sources/*_downloaded
+sources/*_extracted
 
 arm-none-eabi-gcc-*-*
 arm-none-eabi-gcc-*-*.tar.xz
