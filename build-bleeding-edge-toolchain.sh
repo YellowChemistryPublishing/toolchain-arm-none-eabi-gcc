@@ -813,12 +813,12 @@ extract "${mpfrArchive}"
 extract "${newlibArchive}"
 if [ ! -f "${pythonArchiveWin32}_extracted" ] && [ "${enableWin32}" = "y" ]; then
 	messageB "Extracting ${pythonArchiveWin32}"
-	7za x "${pythonArchiveWin32}" "-o${pythonWin32}"
+	7za x "${pythonArchiveWin32}" "-o${pythonWin32}" -y
 	touch "${pythonArchiveWin32}_extracted"
 fi
 if [ ! -f "${pythonArchiveWin64}_extracted" ] && [ "${enableWin64}" = "y" ]; then
 	messageB "Extracting ${pythonArchiveWin64}"
-	7za x "${pythonArchiveWin64}" "-o${pythonWin64}"
+	7za x "${pythonArchiveWin64}" "-o${pythonWin64}" -y
 	touch "${pythonArchiveWin64}_extracted"
 fi
 extract "${zlibArchive}"
@@ -1104,7 +1104,7 @@ buildMingw() {
 		maybeDelete "${package}"
 		ln -s "${installFolder}" "${package}"
 		maybeDelete "${packageArchive}"
-		7za a -l -mx=9 "${packageArchive}" "${package}"
+		7za a -y -l -mx=9 "${packageArchive}" "${package}"
 		maybeDelete "${package}"
 		touch "${tagFile}"
 	fi
