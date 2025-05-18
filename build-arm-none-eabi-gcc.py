@@ -24,6 +24,8 @@ parser.add_argument(
     dest="noResume",
 )
 args = parser.parse_args()
+if (args.platform == "linux"):
+    args.arch = "x86_64"
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 os.chdir(cwd)
@@ -49,13 +51,13 @@ assert ret == 0, f"Subcommand failed with exit code {ret}."
 buildArtifacts = f'{cwd}/install{"Native" if args.platform == "linux" else "Win32" if args.arch == "i686" else "Win64"}'
 
 ret = subprocess.call(
-    f"7z a arm-none-eabi-gcc.7z {buildArtifacts}",
+    f"7z a {args.arch}-{args.platform}-to-arm-none-eabi-gcc.7z {buildArtifacts}",
     shell=True,
 )
 assert ret == 0, f"Subcommand failed with exit code {ret}."
 
 ret = subprocess.call(
-    f'7z rn arm-none-eabi-gcc.7z install{"Native" if args.platform == "linux" else "Win32" if args.arch == "i686" else "Win64"}/ arm-none-eabi-gcc/',
+    f'7z rn {args.arch}-{args.platform}-to-arm-none-eabi-gcc.7z install{"Native" if args.platform == "linux" else "Win32" if args.arch == "i686" else "Win64"}/ arm-none-eabi-gcc/',
     shell=True,
 )
 assert ret == 0, f"Subcommand failed with exit code {ret}."
