@@ -70,5 +70,5 @@ jobs:
             - name: Package
               uses: actions/upload-artifact@v4
               with:
-                  path: arm-none-eabi-gcc.7z
-                  name: arm-none-eabi-gcc.7z
+                  path: ${{ matrix.config.arch }}-${{ matrix.config.platform }}-to-arm-none-eabi-gcc.7z
+                  name: ${{ matrix.config.arch }}-${{ matrix.config.platform }}-to-arm-none-eabi-gcc.7z
