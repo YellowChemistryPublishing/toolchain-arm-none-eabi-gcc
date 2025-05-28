@@ -64,7 +64,7 @@ zlib="zlib-${zlibVersion}"
 zlibArchive="${zlib}.tar.gz"
 
 gnuMirror="https://ftpmirror.gnu.org"
-pkgversion="arm,\ Built\ by\ Engineering\ @\ Yellow\ Chemistry\ Publishing."
+pkgversion="arm, Built by Engineering @ Yellow Chemistry Publishing."
 target="arm-none-eabi"
 package="${target}-${gcc}-$(date +'%y%m%d')"
 packageArchiveNative="${package}.tar.xz"
