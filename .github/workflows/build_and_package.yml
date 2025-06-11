@@ -25,8 +25,8 @@ jobs:
 
             - name: Install Dependencies
               run: |
-                  sudo apt-get update && \
-                      sudo apt install -y \
+                  sudo apt-get update
+                  sudo apt install -y \
                       autoconf autogen automake \
                       binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 binutils bison build-essential \
                       cgdb cmake coreutils curl \
