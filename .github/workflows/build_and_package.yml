@@ -32,31 +32,6 @@ jobs:
                       "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell"
                   testing: false
 
-            - name: Install Dependencies
-              run: |
-                  sudo apt-get update
-                  sudo apt install -y \
-                      autoconf autogen automake \
-                      binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 binutils bison build-essential \
-                      cgdb cmake coreutils curl \
-                      dblatex dejagnu dh-autoreconf docbook-xsl-doc-html docbook-xsl-doc-pdf docbook-xsl-ns doxygen \
-                      emacs expect \
-                      flex flip \
-                      g++-mingw-w64-i686 g++-mingw-w64-x86-64 g++ gawk gcc-mingw-w64-base gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 gcc-mingw-w64 gcc-multilib gcc gdb gettext gfortran ghostscript git-core golang google-mock \
-                      keychain \
-                      less libbz2-dev libc-dev libc6-dev libelf-dev libglib2.0-dev libgmp-dev libgmp3-dev libisl-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libpugixml-dev libreadline-dev libtool libx11-dev libxml2-utils linux-libc-dev \
-                      make mingw-w64-common mingw-w64-i686-dev mingw-w64-x86-64-dev \
-                      ninja-build nsis \
-                      perl php-cli pkg-config python3 python3-venv \
-                      libpixman-1-0 \
-                      ruby-nokogiri ruby rsync \
-                      scons shtool swig \
-                      tcl texinfo time transfig \
-                      valgrind vim \
-                      wget \
-                      xsltproc \
-                      zlib1g-dev
-
             - name: Patch 7zip Install
               run: |
                   wget https://github.com/p7zip-project/p7zip/releases/download/v17.05/linux-p7zip.7z

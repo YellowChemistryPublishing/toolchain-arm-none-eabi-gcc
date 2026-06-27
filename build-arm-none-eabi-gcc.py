@@ -24,11 +24,98 @@ parser.add_argument(
     dest="noResume",
 )
 args = parser.parse_args()
-if (args.platform == "linux"):
+if args.platform == "linux":
     args.arch = "x86_64"
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 os.chdir(cwd)
+
+ret = subprocess.call("sudo apt-get update", shell=True)
+assert ret == 0, f"Subcommand failed with exit code {ret}."
+
+ret = subprocess.call(
+    "sudo apt install -y "
+    + " ".join(
+        [
+            "autoconf",
+            "autogen",
+            "automake",
+            "binutils",
+            "bison",
+            "build-essential",
+            "coreutils",
+            "curl",
+            "flex",
+            "g++",
+            "gawk",
+            "gcc",
+            "gdb",
+            "git-core",
+            "less",
+            "libbz2-dev",
+            "libc-dev",
+            "libc6-dev",
+            "libelf-dev",
+            "libglib2.0-dev",
+            "libgmp-dev",
+            "libisl-dev",
+            "libltdl-dev",
+            "libmpc-dev",
+            "libmpfr-dev",
+            "libncurses5-dev",
+            "libreadline-dev",
+            "libtool",
+            "linux-libc-dev",
+            "m4",
+            "make",
+            "perl",
+            "pkg-config",
+            "python3",
+            "rsync",
+            "shtool",
+            "time",
+            "wget",
+            "zlib1g-dev",
+            "p7zip-full",
+            *(
+                ["gcc-mingw-w64-base", "mingw-w64-common"]
+                if args.platform == "mingw32"
+                else []
+            ),
+            *(
+                [
+                    "binutils-mingw-w64-i686",
+                    "g++-mingw-w64-i686-posix",
+                    "gcc-mingw-w64-i686-posix",
+                    "mingw-w64-i686-dev",
+                ]
+                if args.platform == "mingw32" and args.arch == "i686"
+                else (
+                    [
+                        "binutils-mingw-w64-x86-64",
+                        "g++-mingw-w64-x86-64-posix",
+                        "gcc-mingw-w64-x86-64-posix",
+                        "mingw-w64-x86-64-dev",
+                    ]
+                    if args.platform == "mingw32" and args.arch == "x86_64"
+                    else []
+                )
+            ),
+        ]
+    ),
+    shell=True,
+    env={"DEBIAN_FRONTEND": "noninteractive", **os.environ},
+)
+assert ret == 0, f"Subcommand failed with exit code {ret}."
+
+if args.platform == "mingw32":
+    triplet = f"{args.arch}-w64-mingw32"
+    for tool in ("gcc", "g++"):
+        ret = subprocess.call(
+            f"sudo update-alternatives --set {triplet}-{tool} /usr/bin/{triplet}-{tool}-posix",
+            shell=True,
+        )
+        assert ret == 0, f"Subcommand failed with exit code {ret}."
 
 ret = subprocess.call(
     (

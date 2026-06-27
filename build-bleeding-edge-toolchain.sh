@@ -14,7 +14,7 @@ set -eu
 
 binutilsVersion="2.43"
 expatVersion="2.6.3"
-gccVersion="15.1.0"
+gccVersion="16.1.0"
 gdbVersion="17.2"
 gmpVersion="6.3.0"
 islVersion="0.27"
@@ -64,7 +64,7 @@ zlib="zlib-${zlibVersion}"
 zlibArchive="${zlib}.tar.gz"
 
 gnuMirror="https://ftpmirror.gnu.org"
-pkgversion="arm-bleeding-edge-toolchain"
+pkgversion="arm-none-eabi, Built by Engineering @ Yellow Chemistry Publishing."
 target="arm-none-eabi"
 package="${target}-${gcc}-$(date +'%y%m%d')"
 packageArchiveNative="${package}.tar.xz"
@@ -804,7 +804,7 @@ if [ ! -f "${gcc}_patched" ]; then
 	messageB "Patching ${gcc}"
 	(
 	cd "${gcc}"
-patch -p1 << 'EOF'
+patch -N -p1 << 'EOF' || [ $? -eq 1 ]
 From 1f0224e8ddb3d3d0bf4c7a11769b193a4df5cc37 Mon Sep 17 00:00:00 2001
 From: Jakub Jelinek <jakub@redhat.com>
 Date: Fri, 21 Nov 2025 16:25:58 +0100
@@ -1068,7 +1068,7 @@ index e2fa069bb933..c18469fae843 100644
 --
 2.43.7
 EOF
-patch -p1 << 'EOF'
+patch -N -p1 << 'EOF' || [ $? -eq 1 ]
 From: Lars Gierth <larsg@systemli.org>
 
 This patch backports a small but important part of the upstream commit:
@@ -1439,7 +1439,10 @@ buildMingw() {
 				--with-libiconv-prefix=\"${top}/${buildFolder}/${prerequisites}/${libiconv}\"" \
 			""
 		if [ "${keepBuildFolders}" = "y" ]; then
-			mv "${buildFolder}/${gdb}" "${buildFolder}/${gdb}-py"
+			if [ -d "${buildFolder}/${gdb}" ]; then
+				maybeDelete "${buildFolder}/${gdb}-py"
+				mv "${buildFolder}/${gdb}" "${buildFolder}/${gdb}-py"
+			fi
 		fi
 
 		buildGdb \
