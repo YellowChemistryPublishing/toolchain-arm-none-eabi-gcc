@@ -1,5 +1,6 @@
 ![Forked by atmc Badge](https://img.shields.io/badge/atmc-We%20forked%20this!-%23303030?labelColor=%23c80000)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/YellowChemistryPublishing/toolchain-arm-none-eabi-gcc/build_and_package.yml)
+[![Latest Release](https://img.shields.io/github/release/YellowChemistryPublishing/toolchain-arm-none-eabi-gcc)](https://github.com/YellowChemistryPublishing/toolchain-arm-none-eabi-gcc/releases)
 
 Convenience fork courtesy of Engineering @ Yellow Chemistry Publishing.
 

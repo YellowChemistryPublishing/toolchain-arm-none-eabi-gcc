@@ -64,7 +64,7 @@ zlib="zlib-${zlibVersion}"
 zlibArchive="${zlib}.tar.gz"
 
 gnuMirror="https://ftpmirror.gnu.org"
-pkgversion="arm-none-eabi, Built by Engineering @ Yellow Chemistry Publishing."
+pkgversion="arm-none-eabi, Built by Engineering at Yellow Chemistry Publishing."
 target="arm-none-eabi"
 package="${target}-${gcc}-$(date +'%y%m%d')"
 packageArchiveNative="${package}.tar.xz"
@@ -701,7 +701,7 @@ postCleanup() {
 	$(printf -- "- %s\n- %s\n- %s\n- %s\n- %s\n- %s\n%b" "${expat}" "${gmp}" "${isl}" "${mpc}" "${mpfr}" "${zlib}" "${extraComponents}" | sort)
 
 	This package and info about it can be found on bleeding-edge-toolchain's website:
-	https://github.com/FreddieChopin/bleeding-edge-toolchain
+	https://github.com/YellowChemistryPublishing/toolchain-arm-none-eabi-gcc
 	EOF
 	cp "${0}" "${installFolder}"
 	)
@@ -798,6 +798,24 @@ extract() {
 	fi
 }
 extract "${binutilsArchive}"
+if [ ! -f "${binutils}_patched" ]; then
+    messageB "Patching ${binutils}"
+    (
+    cd "${binutils}"
+patch -N -p1 << 'EOF'
+--- a/bfd/Makefile.in
++++ b/bfd/Makefile.in
+@@ -2473,7 +2473,7 @@
+ 	$(SED) -e "s,@bfd_version@,$$bfd_version," \
+ 	    -e "s,@bfd_version_string@,$$bfd_version_string," \
+-	    -e "s,@bfd_version_package@,$$bfd_version_package," \
++	    -e "s#@bfd_version_package@#$$bfd_version_package#" \
+ 	    -e "s,@report_bugs_to@,$$report_bugs_to," \
+ 	    < $(srcdir)/version.h > $@; \
+EOF
+    )
+    touch "${binutils}_patched"
+fi
 extract "${expatArchive}"
 extract "${gccArchive}"
 if [ ! -f "${gcc}_patched" ]; then
@@ -1147,6 +1165,24 @@ EOF
 fi
 if [ "${skipGdb}" = "n" ]; then
 	extract "${gdbArchive}"
+	if [ ! -f "${gdb}_patched" ]; then
+		messageB "Patching ${gdb}"
+		(
+		cd "${gdb}"
+patch -N -p1 << 'EOF' || [ $? -eq 1 ]
+--- a/bfd/Makefile.in
++++ b/bfd/Makefile.in
+@@ -2463,7 +2463,7 @@ bfdver.h: $(srcdir)/version.h $(srcdir)/development.sh $(srcdir)/Makefile.in
+ 	$(SED) -e "s,@bfd_version@,$$bfd_version," \
+ 	    -e "s,@bfd_version_string@,$$bfd_version_string," \
+-	    -e "s,@bfd_version_package@,$$bfd_version_package," \
++	    -e "s#@bfd_version_package@#$$bfd_version_package#" \
+ 	    -e "s,@report_bugs_to@,$$report_bugs_to," \
+ 	    < $(srcdir)/version.h > $@; \
+EOF
+		)
+		touch "${gdb}_patched"
+	fi
 fi
 extract "${gmpArchive}"
 if [ ! -f "${gmp}_patched" ]; then
