@@ -18,10 +18,10 @@ parser.add_argument(
     choices=["linux", "mingw32"],
 )
 parser.add_argument(
-    "--no-resume",
+    "--resume",
     action="store_true",
     default=False,
-    dest="noResume",
+    dest="resume",
 )
 args = parser.parse_args()
 if args.platform == "linux":
@@ -119,20 +119,22 @@ if args.platform == "mingw32":
 
 ret = subprocess.call(
     (
-        f'./build-bleeding-edge-toolchain.sh {"--resume" if not args.noResume else ""} --keep-build-folders --skip-documentation '
+        f'./build-bleeding-edge-toolchain.sh {"--resume" if args.resume else ""} --keep-build-folders --skip-documentation '
         f'{"--enable-win32" if args.platform == "mingw32" and args.arch == "i686" else "--enable-win64" if args.platform == "mingw32" and args.arch == "x86_64" else ""}'
     ),
     shell=True,
 )
-if ret != 0:
-    # Ok, sources weren't copied right, do it again.
-    ret = subprocess.call(
-        (
-            f'./build-bleeding-edge-toolchain.sh {"--resume" if not args.noResume else ""} --keep-build-folders --skip-documentation '
-            f'{"--enable-win32" if args.platform == "mingw32" and args.arch == "i686" else "--enable-win64" if args.platform == "mingw32" and args.arch == "x86_64" else ""}'
-        ),
-        shell=True,
-    )
+for _ in range(4):
+    # Try harder.
+    if ret != 0:
+        # Ok, sources weren't copied right, do it again, from scratch.
+        ret = subprocess.call(
+            (
+                f"./build-bleeding-edge-toolchain.sh {"--resume" if args.resume else ""} --keep-build-folders --skip-documentation "
+                f'{"--enable-win32" if args.platform == "mingw32" and args.arch == "i686" else "--enable-win64" if args.platform == "mingw32" and args.arch == "x86_64" else ""}'
+            ),
+            shell=True,
+        )
 assert ret == 0, f"Subcommand failed with exit code {ret}."
 
 buildArtifacts = f'{cwd}/install{"Native" if args.platform == "linux" else "Win32" if args.arch == "i686" else "Win64"}'
